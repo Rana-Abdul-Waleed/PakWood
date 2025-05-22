@@ -1,0 +1,1 @@
+PakWood is a modern, full-featured eCommerce web application designed for a Pakistani furniture brand. Built with the powerful MERN stack, PakWood aims to provide a seamless online shopping experience for customers looking to explore and purchase high-quality wooden furniture from the comfort of their homes.
