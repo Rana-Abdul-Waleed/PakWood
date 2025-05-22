@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import userRoutes from "./routes/user.route.js";
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ app.use(cookieParser());
 app.listen(process.env.port, () => {
   console.log(`Server is running on port ${process.env.port}`);
 });
+
+// routes
+app.use("/backend/user", userRoutes);
 
 // custom error middleware
 app.use((err, req, res, next) => {
