@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.route.js";
 
 dotenv.config();
 
+// database connectivity
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
@@ -16,12 +17,14 @@ mongoose
     console.log(err);
   });
 
+// express app
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+// run the server
 app.listen(process.env.port, () => {
   console.log(`Server is running on port ${process.env.port}`);
 });
