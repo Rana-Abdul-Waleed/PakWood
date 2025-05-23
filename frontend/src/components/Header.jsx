@@ -64,16 +64,21 @@ const Header = () => {
       </ul>
 
       {/* signin, cart icon */}
-      <div className="flex items-center gap-12">
+      <div className="flex items-center gap-10">
         {currentUser && (
-          <FaShoppingCart className="text-[26px] text-pink-500 cursor-pointer hover:text-pink-600" />
+          <Link to="/cart">
+            <FaShoppingCart className="text-[26px] text-pink-500 cursor-pointer hover:text-pink-600" />
+          </Link>
         )}
         <div>
           {currentUser ? (
-            <FaUser
-              className="text-2xl cursor-pointer text-gray-500 hover:text-gray-600"
-              onClick={() => setActiveTab("")}
-            />
+            <Link to="/dashboard?tab=profile">
+              <img
+                src={currentUser.profilePicture}
+                alt="User"
+                className="size-9 rounded-full border-2 border-gray-400 shadow-lg"
+              />
+            </Link>
           ) : (
             <Link
               to="/signin"
