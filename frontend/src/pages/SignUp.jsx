@@ -98,7 +98,7 @@ const SignUp = () => {
             to="/signin"
             className="text-pink-500 hover:text-pink-600 cursor-pointer hover:underline"
           >
-            SignIn
+            Sign in
           </Link>
         </div>
       </div>
