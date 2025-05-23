@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaCartArrowDown, FaUser } from "react-icons/fa";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md flex items-center justify-between px-24 py-4">
+    <nav className="sticky top-0 z-50 bg-white shadow-md flex items-center justify-between px-24 py-3">
       {/* Website Logo/Name */}
       <Link
         to="/"
-        className="text-3xl font-bold text-pink-500 hover:text-pink-600"
+        className="text-[28px] font-bold text-pink-500 hover:text-pink-600"
         onClick={() => setActiveTab("home")}
       >
         PakWood
@@ -62,14 +64,14 @@ const Header = () => {
       </ul>
 
       {/* signin, cart icon */}
-      <div className="flex items-center gap-6">
-        {userLoggedIn && (
-          <FaCartArrowDown className="text-4xl p-2 hover:bg-gray-300 rounded-full cursor-pointer" />
+      <div className="flex items-center gap-12">
+        {currentUser && (
+          <FaShoppingCart className="text-[26px] text-pink-500 cursor-pointer hover:text-pink-600" />
         )}
         <div>
-          {userLoggedIn ? (
+          {currentUser ? (
             <FaUser
-              className="text-4xl p-2 hover:bg-gray-300 rounded-full cursor-pointer"
+              className="text-2xl cursor-pointer text-gray-500 hover:text-gray-600"
               onClick={() => setActiveTab("")}
             />
           ) : (
