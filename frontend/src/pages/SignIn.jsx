@@ -1,29 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice.js";
+import { useSelector, useDispatch } from "react-redux";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { loading, error: errorMessage } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
-  console.log(formData);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(false);
-    setError(null);
     if (!formData.email || !formData.password) {
-      return setError("Please fill out all the fields!");
+      return dispatch(signInFailure("Please fill out all the fields!"));
     }
 
     try {
-      setLoading(true);
-      setError(null);
+      dispatch(signInStart());
       const res = await fetch("/backend/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -31,17 +32,14 @@ const SignIn = () => {
       });
       const data = await res.json();
       if (data.success === false) {
-        setError(data.message);
-        setLoading(false);
+        dispatch(signInFailure(data.message));
       }
-      console.log(data);
-      setLoading(false);
       if (res.ok) {
+        dispatch(signInSuccess(data));
         navigate("/");
       }
     } catch (error) {
-      setError(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   };
 
@@ -93,7 +91,7 @@ const SignIn = () => {
         </div>
       </div>
       <div className="max-w-lg mx-auto mt-2 mb-14 py-2 px-2 text-red-500">
-        {error}
+        {errorMessage}
       </div>
     </div>
   );
