@@ -33,11 +33,12 @@ const DashProfile = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
+  console.log(formData);
 
   const handleSignout = () => {};
 
   return (
-    <div className="flex flex-col items-center gap-6 mb-10 py-4 px-8 w-[500px] mx-auto">
+    <div className="flex flex-col items-center gap-6 mt-6 mb-10 py-4 px-8 w-[500px] mx-auto">
       <h1 className="text-gray-700 font-semibold text-3xl">Profile</h1>
       <form className="flex flex-col gap-4 w-full pt-4">
         <input
