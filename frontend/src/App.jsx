@@ -7,6 +7,9 @@ import SignUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import AdminPrivateRoute from "./components/AdminPrivateRoute.jsx";
+import CreatePost from "./pages/CreatePost.jsx";
+import UpdatePost from "./pages/UpdatePost.jsx";
 
 const App = () => {
   return (
@@ -20,6 +23,12 @@ const App = () => {
         {/* Private Route */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+        {/* Private Route */}
+        <Route element={<AdminPrivateRoute />}>
+          <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
       </Routes>
       <Footer />

@@ -74,7 +74,7 @@ const Header = () => {
           {currentUser ? (
             <Link to="/dashboard?tab=profile">
               <img
-                src={currentUser.profilePicture}
+                src={currentUser.user.profilePicture}
                 alt="User"
                 className="size-9 rounded-full border-2 border-gray-400 shadow-lg"
               />

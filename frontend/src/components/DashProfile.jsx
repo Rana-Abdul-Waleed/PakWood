@@ -1,7 +1,11 @@
 import React from "react";
 
 const DashProfile = () => {
-  return <div>DashProfile</div>;
+  return (
+    <div>
+      <div>DashProfile</div>
+    </div>
+  );
 };
 
 export default DashProfile;
