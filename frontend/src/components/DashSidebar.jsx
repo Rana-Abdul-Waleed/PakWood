@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FaSignOutAlt, FaUser } from "react-icons/fa";
+import {
+  FaFileAlt,
+  FaSignOutAlt,
+  FaUser,
+  FaUsers,
+} from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
@@ -45,7 +50,7 @@ const DashSidebar = () => {
           } px-2 py-2 cursor-pointer rounded-md hover:bg-gray-200`}
         >
           <div className="flex items-center gap-3">
-            <FaUser />
+            <FaFileAlt />
             <span className="text-lg">Posts</span>
           </div>
         </Link>
@@ -60,7 +65,7 @@ const DashSidebar = () => {
           } px-2 py-2 cursor-pointer rounded-md hover:bg-gray-200`}
         >
           <div className="flex items-center gap-3">
-            <FaUser />
+            <FaUsers />
             <span className="text-lg">Users</span>
           </div>
         </Link>
