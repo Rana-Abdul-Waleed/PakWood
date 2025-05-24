@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
+  const [submitForm, setSubmitForm] = useState(false);
   const { loading, error: errorMessage } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ const SignIn = () => {
         dispatch(signInSuccess(data));
         navigate("/");
       }
+      setSubmitForm(true);
     } catch (error) {
       dispatch(signInFailure(error.message));
     }
@@ -45,7 +47,7 @@ const SignIn = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-center gap-6 mt-24 py-4 max-w-lg mx-auto bg-white rounded-lg shadow-md">
+      <div className="flex flex-col items-center justify-center gap-6 mt-24 py-4 max-w-lg mx-auto bg-[#f2f2f2] rounded-lg shadow-md">
         <h1 className="text-3xl text-pink-500 font-semibold mt-2">Sign In</h1>
         <form
           className="flex flex-col gap-4 w-full pt-4 px-10"
@@ -91,7 +93,7 @@ const SignIn = () => {
         </div>
       </div>
       <div className="max-w-lg mx-auto mt-2 mb-14 py-2 px-2 text-red-500">
-        {errorMessage}
+        {submitForm && errorMessage}
       </div>
     </div>
   );

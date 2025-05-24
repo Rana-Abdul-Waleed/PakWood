@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const [activeTab, setActiveTab] = useState("home");
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+  // console.log(currentUser);
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md flex items-center justify-between px-24 py-3">
+    <nav className="bg-[#f2f2f2] flex items-center justify-between px-24 py-3 z-50 border-b border-gray-300 shadow-md">
       {/* Website Logo/Name */}
       <Link
         to="/"
@@ -20,10 +20,10 @@ const Header = () => {
       </Link>
 
       {/* ul items */}
-      <ul className="flex items-center gap-7 text-sm text-gray-600">
+      <ul className="flex items-center gap-7 text-sm text-gray-700">
         <li
           className={`hover:text-pink-600 ${
-            activeTab === "home" ? "text-pink-500" : "text-gray-600"
+            activeTab === "home" ? "text-pink-500" : "text-gray-700"
           }`}
           onClick={() => setActiveTab("home")}
         >
@@ -31,7 +31,7 @@ const Header = () => {
         </li>
         <li
           className={`hover:text-pink-600 ${
-            activeTab === "about" ? "text-pink-500" : "text-gray-600"
+            activeTab === "about" ? "text-pink-500" : "text-gray-700"
           }`}
           onClick={() => setActiveTab("about")}
         >
@@ -39,7 +39,7 @@ const Header = () => {
         </li>
         <li
           className={`hover:text-pink-600 ${
-            activeTab === "products" ? "text-pink-500" : "text-gray-600"
+            activeTab === "products" ? "text-pink-500" : "text-gray-700"
           }`}
           onClick={() => setActiveTab("products")}
         >
@@ -47,7 +47,7 @@ const Header = () => {
         </li>
         <li
           className={`hover:text-pink-600 ${
-            activeTab === "shop" ? "text-pink-500" : "text-gray-600"
+            activeTab === "shop" ? "text-pink-500" : "text-gray-700"
           }`}
           onClick={() => setActiveTab("shop")}
         >
@@ -55,7 +55,7 @@ const Header = () => {
         </li>
         <li
           className={`hover:text-pink-600 ${
-            activeTab === "contact" ? "text-pink-500" : "text-gray-600"
+            activeTab === "contact" ? "text-pink-500" : "text-gray-700"
           }`}
           onClick={() => setActiveTab("contact")}
         >

@@ -11,7 +11,7 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
-  console.log(formData);
+  // console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ const SignUp = () => {
         setError(data.message);
         setLoading(false);
       }
-      console.log(data);
+      // console.log(data);
       setLoading(false);
       if (res.ok) {
         navigate("/signin");
@@ -47,7 +47,7 @@ const SignUp = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-center gap-6 mt-24 py-4 max-w-lg mx-auto bg-white rounded-lg shadow-md">
+      <div className="flex flex-col items-center justify-center gap-6 mt-24 py-4 max-w-lg mx-auto bg-[#f2f2f2] rounded-lg shadow-md">
         <h1 className="text-3xl text-pink-500 font-semibold mt-2">Sign Up</h1>
         <form
           className="flex flex-col gap-4 w-full pt-4 px-10"
