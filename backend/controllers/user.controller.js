@@ -13,11 +13,14 @@ export const updateUser = async (req, res, next) => {
   const { username, email, password, profilePicture } = req.body;
   const userId = req.params.userId;
 
+  console.log("Received file:", req.file);
+
   if (req.user.id !== userId) {
     return next(errorHandler(403, "You are not allowed to update this user!"));
   }
 
   let hashedPassword = password;
+  let profilePicturePath;
 
   if (password) {
     if (password.length < 6) {
@@ -43,6 +46,14 @@ export const updateUser = async (req, res, next) => {
       );
     }
   }
+
+  console.log("Uploaded file: ", req.file);
+
+  if (req.file) {
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    profilePicturePath = `${baseUrl}/uploads/profilePictures/${req.file.filename}`;
+  }
+
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
@@ -50,7 +61,7 @@ export const updateUser = async (req, res, next) => {
         $set: {
           username,
           email,
-          profilePicture,
+          profilePicture: profilePicturePath,
           password: hashedPassword,
         },
       },

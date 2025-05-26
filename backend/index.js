@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
@@ -29,6 +30,12 @@ app.use(cookieParser());
 app.listen(process.env.port, () => {
   console.log(`Server is running on port ${process.env.port}`);
 });
+
+// for file handling
+app.use(
+  "/uploads",
+  express.static(path.join(process.cwd(), "backend/uploads"))
+);
 
 // routes
 app.use("/backend/user", userRoutes);

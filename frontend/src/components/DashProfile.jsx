@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -8,7 +8,9 @@ import {
 } from "../redux/user/userSlice.js";
 
 const DashProfile = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const { currentUser, error, loading } = useSelector((state) => state.user);
+  console.log("currentUser:", currentUser); //
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const filePickerRef = useRef();
@@ -25,15 +27,15 @@ const DashProfile = () => {
     }
   };
 
-  useEffect(() => {
-    if (imageFile) {
-      uploadImage();
-    }
-  }, [imageFile]);
+  // useEffect(() => {
+  //   if (imageFile) {
+  //     uploadImage();
+  //   }
+  // }, [imageFile]);
 
-  const uploadImage = () => {
-    setFormData({ ...formData, profilePicture: imageFileUrl });
-  };
+  // const uploadImage = () => {
+  //   setFormData({ ...formData, profilePicture: imageFileUrl });
+  // };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -43,20 +45,24 @@ const DashProfile = () => {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
-    if (Object.keys(formData).length === 0) {
+
+    if (!formData.username && !formData.password && !imageFile) {
       setUpdateUserError("No changes made.");
       return;
     }
+
+    const formDataToSend = new FormData();
+    if (formData.username) formDataToSend.append("username", formData.username);
+    if (formData.password) formDataToSend.append("password", formData.password);
+    if (imageFile) formDataToSend.append("profilePicture", imageFile);
+
     try {
       dispatch(updateStart());
       const res = await fetch(
         `/backend/user/updateUser/${currentUser.user._id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
       const data = await res.json();
@@ -66,6 +72,8 @@ const DashProfile = () => {
       } else {
         dispatch(updateSuccess(data));
         setUpdateUserSuccess("User's profile has been updated successfully!");
+        setImageFile(null);
+        setImageFileUrl(null);
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
@@ -91,7 +99,12 @@ const DashProfile = () => {
           onClick={() => filePickerRef.current.click()}
         >
           <img
-            src={imageFileUrl || currentUser.user.profilePicture}
+            src={
+              imageFileUrl ||
+              (currentUser.profilePicture
+                ? `${API_BASE_URL}${currentUser.profilePicture}`
+                : "https://img.freepik.com/premium-vector/single-gray-square-with-simple-human-silhouette-inside-light-gray-background_213497-5040.jpg?semt=ais_hybrid&w=740")
+            }
             alt="user"
             className="rounded-full w-full h-full object-cover border-8 border-[lightGray]"
           />
@@ -101,7 +114,7 @@ const DashProfile = () => {
           id="username"
           className="rounded-sm py-2 px-3 border-2 border-gray-200 outline-none text-gray-700"
           placeholder="Username"
-          defaultValue={currentUser.user.username}
+          value={formData.username ?? currentUser.user.username}
           onChange={handleChange}
           disabled={loading}
         />
