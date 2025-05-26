@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const [activeTab, setActiveTab] = useState("home");
   const { currentUser } = useSelector((state) => state.user);
-  // console.log(currentUser);
+  console.log(currentUser);
 
   return (
     <nav className="bg-[#f2f2f2] flex items-center justify-between px-24 py-3 z-50 border-b border-gray-300 shadow-md">
@@ -76,7 +76,7 @@ const Header = () => {
               <img
                 src={currentUser.user.profilePicture}
                 alt="User"
-                className="size-9 rounded-full border-2 border-gray-400 shadow-lg"
+                className="size-9 rounded-full border-2 border-gray-400 shadow-lg object-cover"
               />
             </Link>
           ) : (

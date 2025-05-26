@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  updateStart,
+  updateSuccess,
+  updateFailure,
+} from "../redux/user/userSlice.js";
 
 const DashProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -33,14 +38,47 @@ const DashProfile = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-  console.log(formData);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUpdateUserError(null);
+    setUpdateUserSuccess(null);
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError("No changes made.");
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await fetch(
+        `/backend/user/updateUser/${currentUser.user._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(updateFailure(data.message));
+        setUpdateUserError(data.message);
+      } else {
+        dispatch(updateSuccess(data));
+        setUpdateUserSuccess("User's profile has been updated successfully!");
+      }
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+      setUpdateUserError(error.message);
+    }
+  };
 
   const handleSignout = () => {};
 
   return (
     <div className="flex flex-col items-center gap-6 mt-6 mb-10 py-4 px-8 w-[500px] mx-auto">
       <h1 className="text-gray-700 font-semibold text-3xl">Profile</h1>
-      <form className="flex flex-col gap-4 w-full pt-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full pt-4">
         <input
           type="file"
           accept="image/*"
@@ -117,12 +155,12 @@ const DashProfile = () => {
       </div>
       {updateUserSuccess && (
         <div className="bg-green-100 text-gray-700 text-left w-full p-3 rounded-sm">
-          success
+          {updateUserSuccess}
         </div>
       )}
       {updateUserError && (
         <div className="bg-red-100 text-gray-700 text-left w-full p-3 rounded-sm">
-          error
+          {updateUserError}
         </div>
       )}
     </div>

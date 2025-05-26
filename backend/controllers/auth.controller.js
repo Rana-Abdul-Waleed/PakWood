@@ -30,7 +30,31 @@ export const signup = async (req, res, next) => {
     return next(errorHandler(400, "Username already exists!"));
   }
 
-  const hashedPassword = bcryptjs.hashSync(password, 10);
+  if (username) {
+    if (username.length < 7 || username.length > 20) {
+      return next(
+        errorHandler(400, "Username must be between 7 and 20 characters.")
+      );
+    }
+    if (username.includes(" ")) {
+      return next(errorHandler(400, "Username cannot contain spaces."));
+    }
+    if (username !== username.toLowerCase()) {
+      return next(errorHandler(400, "Username must be lowercase."));
+    }
+    if (!username.match(/^[a-zA-Z0-9]+$/)) {
+      return next(
+        errorHandler(400, "Username can only contain letters and numbers.")
+      );
+    }
+  }
+
+  if (password) {
+    if (password.length < 6) {
+      return next(errorHandler(400, "Password must be at least 6 characters."));
+    }
+    var hashedPassword = bcryptjs.hashSync(password, 10);
+  }
 
   const newUser = new User({
     username,
